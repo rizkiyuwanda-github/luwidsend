@@ -59,7 +59,7 @@
     <column id="COL13" populated="true" UUID="0b914a34-165f-4014-a442-1933c3fe2082" autoIncrement="false" autoIncrementSequenceName="account_id_seq" defaultValue="" name="id" nullable="0" physicalName="id" precision="50" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL14" populated="true" UUID="d04d8852-adf4-444d-8a56-0ef3afbc7269" autoIncrement="false" autoIncrementSequenceName="bank_id_seq" defaultValue="" name="bank_id" nullable="0" physicalName="bank_id" precision="5" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL14" populated="true" UUID="d04d8852-adf4-444d-8a56-0ef3afbc7269" autoIncrement="false" autoIncrementSequenceName="bank_id_seq_1" defaultValue="" name="bank_id" nullable="0" physicalName="bank_id" precision="5" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
     <column id="COL15" populated="true" UUID="be484445-8ebf-4093-8a19-2b00e851796e" autoIncrement="false" autoIncrementSequenceName="account_name_seq" defaultValue="" name="name" nullable="0" physicalName="name" precision="100" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
@@ -140,7 +140,7 @@ Canceled</remarks>
    </relationship>
   </relationships>
  </target-database>
- <ddl-generator type="ca.sqlpower.architect.ddl.GenericDDLGenerator" allow-connection="true"> </ddl-generator>
+ <ddl-generator type="ca.sqlpower.architect.ddl.PostgresDDLGenerator" allow-connection="false" target-schema="public"> </ddl-generator>
  <liquibase-settings useSeparateChangeSets="false" generateId="false" idStart="1"/>
  <create-kettle-job-settings filePath="" jobName="" schemaName="" kettleJoinType="0" savingToFile="true" />
  <play-pen zoom="1.0" viewportX="0" viewportY="0" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">

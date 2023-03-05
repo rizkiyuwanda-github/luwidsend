@@ -80,6 +80,8 @@ public class BankDialog extends Dialog {
 //            System.out.println("Data: "+binder.getBean().toString());
             if(bankService.save(bank) != null){
                 Notification.show("Bank saved", 3000, Notification.Position.MIDDLE);
+                refresh.click();
+                this.close();
             }else{
                 Notification.show("Error", 3000, Notification.Position.MIDDLE);
             }
