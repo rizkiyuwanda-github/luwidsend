@@ -14,7 +14,7 @@ import javax.annotation.security.RolesAllowed;
 @PageTitle("Hello World")
 @Route(value = "hello", layout = MainLayout.class)
 @RouteAlias(value = "", layout = MainLayout.class)
-@RolesAllowed("USER")
+@RolesAllowed({"ADMIN","USER"})
 public class HelloWorldView extends HorizontalLayout {
 
     private TextField name;

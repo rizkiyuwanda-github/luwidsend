@@ -16,7 +16,6 @@ import com.vaadin.flow.component.html.UnorderedList;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.router.RouterLink;
-import com.vaadin.flow.server.StreamResource;
 import com.vaadin.flow.server.auth.AccessAnnotationChecker;
 import com.vaadin.flow.theme.lumo.LumoUtility.AlignItems;
 import com.vaadin.flow.theme.lumo.LumoUtility.BoxSizing;
@@ -33,12 +32,11 @@ import com.vaadin.flow.theme.lumo.LumoUtility.Padding;
 import com.vaadin.flow.theme.lumo.LumoUtility.TextColor;
 import com.vaadin.flow.theme.lumo.LumoUtility.Whitespace;
 import com.vaadin.flow.theme.lumo.LumoUtility.Width;
-import id.my.rizkiyuwanda.data.entity.User;
+import id.my.rizkiyuwanda.bank.BankView;
+import id.my.rizkiyuwanda.userapp.UserApp;
 import id.my.rizkiyuwanda.security.AuthenticatedUser;
 import id.my.rizkiyuwanda.views.about.AboutView;
 import id.my.rizkiyuwanda.views.helloworld.HelloWorldView;
-import id.my.rizkiyuwanda.views.personform.PersonFormView;
-import java.io.ByteArrayInputStream;
 import java.util.Optional;
 
 /**
@@ -111,14 +109,14 @@ public class MainLayout extends AppLayout {
         appName.addClassNames(Margin.Vertical.MEDIUM, Margin.End.AUTO, FontSize.LARGE);
         layout.add(appName);
 
-        Optional<User> maybeUser = authenticatedUser.get();
+        Optional<UserApp> maybeUser = authenticatedUser.get();
         if (maybeUser.isPresent()) {
-            User user = maybeUser.get();
+            UserApp userApp = maybeUser.get();
 
-            Avatar avatar = new Avatar(user.getName());
-            StreamResource resource = new StreamResource("profile-pic",
-                    () -> new ByteArrayInputStream(user.getProfilePicture()));
-            avatar.setImageResource(resource);
+            String avatarSource = "images/userapp.png";
+            Avatar avatar = new Avatar(userApp.getId(), avatarSource);
+            //StreamResource avatarResource = new StreamResource("profile-pic", () -> new ByteArrayInputStream(user.getProfilePicture()));
+            //avatar.setImageResource(avatarResource);
             avatar.setThemeName("xsmall");
             avatar.getElement().setAttribute("tabindex", "-1");
 
@@ -128,7 +126,7 @@ public class MainLayout extends AppLayout {
             MenuItem userName = userMenu.addItem("");
             Div div = new Div();
             div.add(avatar);
-            div.add(user.getName());
+            div.add(userApp.getId());
             div.add(new Icon("lumo", "dropdown"));
             div.getElement().getStyle().set("display", "flex");
             div.getElement().getStyle().set("align-items", "center");
@@ -169,7 +167,7 @@ public class MainLayout extends AppLayout {
 
                 new MenuItemInfo("About", "la la-file", AboutView.class), //
 
-                new MenuItemInfo("Person Form", "la la-user", PersonFormView.class), //
+                new MenuItemInfo("Bank", "la la-user", BankView.class), //
 
         };
     }
