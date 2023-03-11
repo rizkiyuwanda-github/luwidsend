@@ -53,4 +53,7 @@ public class Transaction {
     private String note;
     private String status;
 
+    @Column(name = "reference_id", length = 50, nullable = true)
+    private String referenceId;
+
 }

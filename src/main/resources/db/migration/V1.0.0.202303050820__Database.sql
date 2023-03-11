@@ -1,5 +1,5 @@
 
-CREATE TABLE transaction (
+CREATE TABLE public.transaction (
                 id VARCHAR(50) NOT NULL,
                 sender_bank_id VARCHAR(5) NOT NULL,
                 sender_bank_name VARCHAR(100) NOT NULL,
@@ -14,21 +14,22 @@ CREATE TABLE transaction (
                 fee NUMERIC(19,2) NOT NULL,
                 note TEXT,
                 status VARCHAR(50) NOT NULL,
+                reference_id VARCHAR(50),
                 CONSTRAINT transaction_pk PRIMARY KEY (id)
 );
-COMMENT ON COLUMN transaction.status IS 'Pending
+COMMENT ON COLUMN public.transaction.status IS 'Pending
 Delivered
 Canceled';
 
 
-CREATE TABLE bank (
+CREATE TABLE public.bank (
                 id VARCHAR(5) NOT NULL,
                 name VARCHAR(100) NOT NULL,
                 CONSTRAINT bank_pk PRIMARY KEY (id)
 );
 
 
-CREATE TABLE account (
+CREATE TABLE public.account (
                 id VARCHAR(50) NOT NULL,
                 bank_id VARCHAR(5) NOT NULL,
                 name VARCHAR(100) NOT NULL,
@@ -36,7 +37,7 @@ CREATE TABLE account (
 );
 
 
-CREATE TABLE user_app (
+CREATE TABLE public.user_app (
                 id VARCHAR(100) NOT NULL,
                 password VARCHAR(255) NOT NULL,
                 role VARCHAR(50) NOT NULL,
@@ -44,9 +45,9 @@ CREATE TABLE user_app (
 );
 
 
-ALTER TABLE account ADD CONSTRAINT bank_account_fk
+ALTER TABLE public.account ADD CONSTRAINT bank_account_fk
 FOREIGN KEY (bank_id)
-REFERENCES bank (id)
+REFERENCES public.bank (id)
 ON DELETE RESTRICT
 ON UPDATE CASCADE
 NOT DEFERRABLE;

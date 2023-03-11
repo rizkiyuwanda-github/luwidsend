@@ -49,7 +49,7 @@ public class TransactionService {
         transactionDTO_1.setSenderBankId(transaction.getSenderBankId());
         transactionDTO_1.setReceiverAccountId(luwidSendReceiverAccount.getId());
         transactionDTO_1.setReceiverBankId(luwidSendReceiverAccount.getBank().getId());
-        transactionDTO_1.setAmount(transaction.getAmount().add(transaction.getFee()));
+        transactionDTO_1.setAmount(transaction.getAmount().add(transaction.getFee()));//(Amount + Fee)
         transactionDTO_1.setNote(transaction.getNote());
 
         TransactionDTO transactionDTO_2 = new TransactionDTO();
@@ -58,7 +58,7 @@ public class TransactionService {
         transactionDTO_2.setSenderBankId(luwidSendSenderAccount.getBank().getId());
         transactionDTO_2.setReceiverAccountId(transaction.getReceiverAccountId());
         transactionDTO_2.setReceiverBankId(transaction.getReceiverBankId());
-        transactionDTO_2.setAmount(transaction.getAmount());
+        transactionDTO_2.setAmount(transaction.getAmount());//(Amount Only)
         transactionDTO_2.setNote(transaction.getNote());
 
         //1. SENDER TRANSFER TO ACCOUNT LUWIDSEND (Amount + Fee)
@@ -74,15 +74,20 @@ public class TransactionService {
 
         if(transactionToLuwidSend == null){
             System.out.println("Transfer not found");
+            return null;
         }else{
             //3. LUWIDSEND TRANSFER TO RECEIVER (Amount Only), use luwidsend bank account as same with receiver
             TransactionDTO transactionDTO_2Response = transfer(transactionDTO_2);
 
             if(transactionDTO_2Response != null) {
+                System.out.println("Transfer failed");
+                return null;
+            }else{
                 //4. INSERT TO LOCAL DATABASE
+                transaction.setId(id1);
+                return transactionRepository.save(transaction);
 
             }
-
         }
     }
 

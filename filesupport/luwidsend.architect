@@ -123,20 +123,23 @@
 Delivered
 Canceled</remarks>
     </column>
+    <column id="COL33" populated="true" UUID="22b4c20d-1a67-446b-89b5-86cd9eaae724" autoIncrement="false" autoIncrementSequenceName="transaction_reference_id_seq" defaultValue="" name="reference_id" nullable="1" physicalName="reference_id" precision="50" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
     </folder>
     <folder id="FOLTAB183" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
     </folder>
     <folder id="FOLTAB182" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
     </folder>
     <folder id="FOLTAB184" populated="true" name="Indices" physicalName="Indices" type="4">
-    <index id="IDX33" populated="true" UUID="53bb0d8b-55a2-4141-ac53-784ea6202b83" clustered="false" name="transaction_pk" physicalName="transaction_pk" primaryKeyIndex="true" unique="false" >
-     <index-column id="IDC34" populated="true" UUID="8ea3767c-c5c9-4a0e-bfae-14e4bbfba751" ascendingOrDescending="UNSPECIFIED" column-ref="COL19" name="id" physicalName="id" />
+    <index id="IDX34" populated="true" UUID="53bb0d8b-55a2-4141-ac53-784ea6202b83" clustered="false" name="transaction_pk" physicalName="transaction_pk" primaryKeyIndex="true" unique="false" >
+     <index-column id="IDC35" populated="true" UUID="8ea3767c-c5c9-4a0e-bfae-14e4bbfba751" ascendingOrDescending="UNSPECIFIED" column-ref="COL19" name="id" physicalName="id" />
     </index>
    </folder>
   </table>
   <relationships>
-   <relationship id="REL35" populated="true" UUID="a0098019-336d-4414-ae21-042951aec6c9" deferrability="7" deleteRule="1" fk-table-ref="TAB12" fkCardinality="6" identifying="false" name="bank_account_fk" physicalName="bank_account_fk" pk-table-ref="TAB7" pkCardinality="2" updateRule="0" >
-    <column-mapping id="CMP36" populated="true" UUID="2fe10eef-ec37-4369-a152-09b5a3d3f1fb" fk-column-ref="COL14" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL8" />
+   <relationship id="REL36" populated="true" UUID="a0098019-336d-4414-ae21-042951aec6c9" deferrability="7" deleteRule="1" fk-table-ref="TAB12" fkCardinality="6" identifying="false" name="bank_account_fk" physicalName="bank_account_fk" pk-table-ref="TAB7" pkCardinality="2" updateRule="0" >
+    <column-mapping id="CMP37" populated="true" UUID="2fe10eef-ec37-4369-a152-09b5a3d3f1fb" fk-column-ref="COL14" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL8" />
    </relationship>
   </relationships>
  </target-database>
@@ -148,7 +151,7 @@ Canceled</remarks>
   <table-pane table-ref="TAB7" x="196" y="31" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB12" x="194" y="131" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB18" x="563" y="75" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-link relationship-ref="REL35" pkConnection="0.5" fkConnection="0.4371859296482412" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="132"/>
+  <table-link relationship-ref="REL36" pkConnection="0.5" fkConnection="0.4371859296482412" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="132"/>
  </play-pen>
  <critic-manager>
   <critic-grouping platformType="Generic" enabled="true">
