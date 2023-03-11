@@ -4,6 +4,9 @@
 CREATE USER luwidsend WITH ENCRYPTED PASSWORD 'luwidsend';
 CREATE DATABASE luwidsend WITH OWNER luwidsend;
 
+## Spring webflux
+https://stackoverflow.com/questions/68753053/you-have-to-block-on-webflux-to-operate-is-there-a-way-to-operate-without-block
+
 This project can be used as a starting point to create your own Vaadin application with Spring Boot.
 It contains all the necessary configuration and some placeholder files to get you started.
 

@@ -39,20 +39,16 @@ public class BankView extends VerticalLayout {
     private final List<Bank> banks = new ArrayList<>();
     private final Grid<Bank> bankGrid = new Grid<>(Bank.class, false);
 
-    @Autowired
-    public BankView(BankService bankService) {
+    public BankView(@Autowired BankService bankService) {
         this.bankService = bankService;
         //addClassName("bank-view");
 
         initLayouts();
         initEvents();
-       loadData();
+        loadData();
     }
 
-    private void initLayouts(){
-//        setMargin(false);
-//        setPadding(false);
-
+    private void initLayouts() {
         searchTextField.setMinWidth("80px");
         searchTextField.setPlaceholder("Search");
         searchTextField.setPrefixComponent(new Icon(VaadinIcon.SEARCH));
@@ -72,7 +68,7 @@ public class BankView extends VerticalLayout {
         add(formLayout);
     }
 
-    private void delete(String id, ConfirmDialog confirmDialog){
+    private void delete(String id, ConfirmDialog confirmDialog) {
         bankService.deleteById(id);
         Notification.show("Delete success", 3000, Notification.Position.MIDDLE);
         refreshButton.click();
@@ -82,7 +78,7 @@ public class BankView extends VerticalLayout {
     private ConfirmDialog createDeleteDialogConfirm(Bank bank) {
         ConfirmDialog dialog = new ConfirmDialog();
         dialog.setHeader("Delete");
-        dialog.setText("Are you sure want to delete data '"+bank.getName()+"'?");
+        dialog.setText("Are you sure want to delete data '" + bank.getName() + "'?");
 
         dialog.setCancelable(true);
         dialog.setCancelText("Cancel");
@@ -98,14 +94,14 @@ public class BankView extends VerticalLayout {
         UI.getCurrent().getPage().retrieveExtendedClientDetails(ecd -> {
             int width = ecd.getWindowInnerWidth();
             if (width < 500) {
-                int height = ecd.getWindowInnerHeight() - 230;
+                int height = ecd.getWindowInnerHeight() - 220;
                 bankGrid.setHeight(height + "px");
             } else {
-                int height = ecd.getWindowInnerHeight() - 190;
+                int height = ecd.getWindowInnerHeight() - 180;
                 bankGrid.setHeight(height + "px");
             }
         });
-         bankGrid.addComponentColumn((bank) -> {
+        bankGrid.addComponentColumn((bank) -> {
             Button menuButton = new Button(VaadinIcon.MENU.create());
             ContextMenu contextMenu = new ContextMenu(menuButton);
             contextMenu.setOpenOnClick(true);
@@ -141,8 +137,7 @@ public class BankView extends VerticalLayout {
     }
 
     private void initEvents() {
-        addButton.addClickListener(event -> new  BankDialog(bankService, null, refreshButton).open()
-        );
+        addButton.addClickListener(event -> new BankDialog(bankService, null, refreshButton).open());
         refreshButton.addClickListener(event -> loadData());
     }
 
