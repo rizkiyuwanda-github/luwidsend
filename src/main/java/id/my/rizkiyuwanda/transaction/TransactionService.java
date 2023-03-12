@@ -19,7 +19,7 @@ public class TransactionService {
     @Autowired
     private TransactionRepository transactionRepository;
 
-    public LocalDateTime getLocalDataTime() {
+    public LocalDateTime getLocalDateTime() {
         Mono<LocalDateTime> timeMono = lsWebClient.getWebClient().get()
                 .uri("/gettime")
                 .retrieve()
@@ -37,7 +37,7 @@ public class TransactionService {
     }
 
     public Transaction transferDifferentBank(Transaction transaction, Account luwidSendReceiverAccount, Account luwidSendSenderAccount) {
-        LocalDateTime timeServer = getLocalDataTime();
+        LocalDateTime timeServer = getLocalDateTime();
         int nano1 = timeServer.getNano();
         int nano2 = nano1 + 1;
         String id1 = "T"+timeServer.getYear()+timeServer.getMonthValue()+timeServer.getDayOfMonth()+timeServer.getHour()+timeServer.getMinute()+timeServer.getSecond()+nano1;
@@ -67,7 +67,7 @@ public class TransactionService {
 
         //2. check on the luwidsend account is have received it from the sender (ID + (Amount + Fee))
         Transaction transactionToLuwidSend = lsWebClient.getWebClient().get()
-                .uri("/findByIdReceiverAccountIdAndAmount/{id}/{receiverAccountId}/{amount}",
+                .uri("/findByIdAndReceiverAccountIdAndAmount/{id}/{receiverAccountId}/{amount}",
                         transactionDTOSender.getId(), luwidSendReceiverAccount.getId(), transactionDTO_1.getAmount())
                 .retrieve()
                 .bodyToMono(Transaction.class).block();
@@ -90,5 +90,4 @@ public class TransactionService {
             }
         }
     }
-
 }
