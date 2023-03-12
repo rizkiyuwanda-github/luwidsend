@@ -33,6 +33,7 @@ import com.vaadin.flow.theme.lumo.LumoUtility.TextColor;
 import com.vaadin.flow.theme.lumo.LumoUtility.Whitespace;
 import com.vaadin.flow.theme.lumo.LumoUtility.Width;
 import id.my.rizkiyuwanda.bank.BankView;
+import id.my.rizkiyuwanda.transaction.TransactionView;
 import id.my.rizkiyuwanda.userapp.UserApp;
 import id.my.rizkiyuwanda.security.AuthenticatedUser;
 import id.my.rizkiyuwanda.views.about.AboutView;
@@ -163,11 +164,10 @@ public class MainLayout extends AppLayout {
 
     private MenuItemInfo[] createMenuItems() {
         return new MenuItemInfo[]{ //
-                new MenuItemInfo("Hello World", "la la-globe", HelloWorldView.class), //
-
-                new MenuItemInfo("About", "la la-file", AboutView.class), //
-
-                new MenuItemInfo("Bank", "la la-user", BankView.class), //
+                new MenuItemInfo("Hello World", "la la-globe", HelloWorldView.class),
+                new MenuItemInfo("Bank", "la la-user", BankView.class),
+                new MenuItemInfo("Transaction", "la la-file", TransactionView.class),
+                new MenuItemInfo("About", "la la-file", AboutView.class),
 
         };
     }

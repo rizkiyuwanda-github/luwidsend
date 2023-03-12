@@ -29,7 +29,6 @@ import java.util.List;
 @RolesAllowed("ADMIN")
 public class BankView extends VerticalLayout {
 
-
     private final BankService bankService;
 
     private final LSFormLayout formLayout = new LSFormLayout("400px", 2);
