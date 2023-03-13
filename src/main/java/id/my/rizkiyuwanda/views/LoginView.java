@@ -1,4 +1,4 @@
-package id.my.rizkiyuwanda.views.login;
+package id.my.rizkiyuwanda.views;
 
 import com.vaadin.flow.component.login.LoginI18n;
 import com.vaadin.flow.component.login.LoginOverlay;
@@ -24,8 +24,8 @@ public class LoginView extends LoginOverlay implements BeforeEnterObserver {
 
         LoginI18n i18n = LoginI18n.createDefault();
         i18n.setHeader(new LoginI18n.Header());
-        i18n.getHeader().setTitle("luwidsend");
-        i18n.getHeader().setDescription("Login using user/user or admin/admin");
+        i18n.getHeader().setTitle("LuwidSend");
+        i18n.getHeader().setDescription("Save your transfer fees");
         i18n.setAdditionalInformation(null);
         setI18n(i18n);
 

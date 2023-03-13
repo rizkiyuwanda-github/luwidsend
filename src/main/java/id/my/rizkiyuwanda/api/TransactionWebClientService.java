@@ -20,12 +20,12 @@ public class TransactionWebClientService {
     private LSWebClient lsWebClient;
 
 
-    public Transaction transfer(TransactionDTO transactionDTO) {
-        Mono<Transaction>transactionMono = lsWebClient.getWebClient().post()
+    public String transfer(TransactionDTO transactionDTO) {
+        Mono<String>transactionMono = lsWebClient.getWebClient().post()
                 .uri("/transaction/transfer")
                 .body(Mono.just(transactionDTO), TransactionDTO.class)
                 .retrieve()
-                .bodyToMono(Transaction.class);
+                .bodyToMono(String.class);
         //EXECUTE
         return transactionMono.block();
     }

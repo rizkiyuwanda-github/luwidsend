@@ -123,7 +123,7 @@
 Delivered
 Canceled</remarks>
     </column>
-    <column id="COL33" populated="true" UUID="22b4c20d-1a67-446b-89b5-86cd9eaae724" autoIncrement="false" autoIncrementSequenceName="transaction_reference_id_seq" defaultValue="" name="reference_id" nullable="1" physicalName="reference_id" precision="50" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL33" populated="true" UUID="22b4c20d-1a67-446b-89b5-86cd9eaae724" autoIncrement="false" autoIncrementSequenceName="transaction_reference_id_seq" defaultValue="" name="reference_id" nullable="1" physicalName="reference_id" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="-1" userDefinedTypeUUID="9a814859-ab26-4acd-9415-ea82291bcac1" >
      <remarks></remarks>
     </column>
     </folder>
@@ -143,7 +143,7 @@ Canceled</remarks>
    </relationship>
   </relationships>
  </target-database>
- <ddl-generator type="ca.sqlpower.architect.ddl.PostgresDDLGenerator" allow-connection="true" target-schema="public"> </ddl-generator>
+ <ddl-generator type="ca.sqlpower.architect.ddl.PostgresDDLGenerator" allow-connection="false" target-schema="public"> </ddl-generator>
  <liquibase-settings useSeparateChangeSets="false" generateId="false" idStart="1"/>
  <create-kettle-job-settings filePath="" jobName="" schemaName="" kettleJoinType="0" savingToFile="true" />
  <play-pen zoom="1.0" viewportX="0" viewportY="0" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">

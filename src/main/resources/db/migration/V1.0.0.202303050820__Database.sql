@@ -14,7 +14,7 @@ CREATE TABLE public.transaction (
                 fee NUMERIC(19,2) NOT NULL,
                 note TEXT,
                 status VARCHAR(50) NOT NULL,
-                reference_id VARCHAR(50),
+                reference_id TEXT,
                 CONSTRAINT transaction_pk PRIMARY KEY (id)
 );
 COMMENT ON COLUMN public.transaction.status IS 'Pending

@@ -1,4 +1,4 @@
-package id.my.rizkiyuwanda.views.about;
+package id.my.rizkiyuwanda.views;
 
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Image;
@@ -22,10 +22,10 @@ public class AboutView extends VerticalLayout {
         img.setWidth("200px");
         add(img);
 
-        H2 header = new H2("This place intentionally left empty");
+        H2 header = new H2("LuwidSend");
         header.addClassNames(Margin.Top.XLARGE, Margin.Bottom.MEDIUM);
         add(header);
-        add(new Paragraph("It’s a place where you can grow your own UI 🤗"));
+        add(new Paragraph("Save your transfer fees 🤗"));
 
         setSizeFull();
         setJustifyContentMode(JustifyContentMode.CENTER);

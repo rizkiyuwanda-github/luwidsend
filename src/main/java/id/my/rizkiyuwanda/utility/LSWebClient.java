@@ -8,7 +8,7 @@ public class LSWebClient {
 
     @Bean
     public WebClient getWebClient(){
-        WebClient webClient = WebClient.builder().baseUrl("http://localhost:2009")
+        WebClient webClient = WebClient.builder().baseUrl("https://api.luwid.cloud")
                 .defaultHeaders(httpHeaders -> httpHeaders.setBasicAuth("admin@gmail.com", "admin"))
                 .build();
         return webClient;

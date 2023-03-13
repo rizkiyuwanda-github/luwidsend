@@ -1,7 +1,7 @@
 package id.my.rizkiyuwanda.security;
 
 import com.vaadin.flow.spring.security.VaadinWebSecurity;
-import id.my.rizkiyuwanda.views.login.LoginView;
+import id.my.rizkiyuwanda.views.LoginView;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

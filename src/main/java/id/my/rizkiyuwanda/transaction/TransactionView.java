@@ -10,10 +10,12 @@ import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.BigDecimalField;
+import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.textfield.TextFieldVariant;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.RouteAlias;
 import id.my.rizkiyuwanda.account.Account;
 import id.my.rizkiyuwanda.account.AccountService;
 import id.my.rizkiyuwanda.api.AccountWebClientService;
@@ -32,6 +34,7 @@ import java.util.List;
 
 @PageTitle("Transaction")
 @Route(value = "transaction", layout = MainLayout.class)
+@RouteAlias(value = "", layout = MainLayout.class)
 @RolesAllowed({"ADMIN", "USER"})
 public class TransactionView extends VerticalLayout {
 
@@ -40,6 +43,8 @@ public class TransactionView extends VerticalLayout {
     private final TransactionService transactionService;
     private final AccountWebClientService accountWebClientService;
     private final TransactionWebClientService transactionWebClientService;
+
+    private Transaction transactionForUpdate = null;
 
     private final String TRANSFER_TO = "Transfer to";
     private final String TRANSFER_METHOD = "Choose a transfer method";
@@ -54,7 +59,10 @@ public class TransactionView extends VerticalLayout {
     private final ComboBox<Bank> receiverBankComboBox = new ComboBox<>("Bank");
     private final ComboBox<Account> receiverAccountComboBox = new ComboBox<>("Account Number (Example, not real)");
     private final BigDecimalField amountBigDecimalField = new BigDecimalField("Transfer Amount");
+    private final TextArea noteTextArea = new TextArea("Note");
     private final Button openTransferMethodButton = new Button("Next");
+
+    private final List<Account>luwidSendAccounts = new ArrayList<>();
     private final ComboBox<Account> luwidSendReceiverAccountComboBox = new ComboBox<>("Bank");
     private final BigDecimalField amountPlusFeeBigDecimalField = new BigDecimalField("Total (Amount + Fee)");
     private final ComboBox<Account> senderAccountComboBox = new ComboBox<>("I Transfer Via");
@@ -99,7 +107,8 @@ public class TransactionView extends VerticalLayout {
         amountBigDecimalField.addThemeVariants(TextFieldVariant.LUMO_ALIGN_RIGHT);
         openTransferMethodButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
-        luwidSendReceiverAccountComboBox.setItems(accountService.getList());
+        luwidSendAccounts.addAll(accountService.getList());
+        luwidSendReceiverAccountComboBox.setItems(luwidSendAccounts);
         luwidSendReceiverAccountComboBox.setItemLabelGenerator(account -> account.getBank().getName() +" - "+account.getName());
         amountPlusFeeBigDecimalField.setEnabled(false);
 
@@ -111,6 +120,7 @@ public class TransactionView extends VerticalLayout {
 
         receiverFormLayout.add(receiverBankComboBox, 2);
         receiverFormLayout.add(receiverAccountComboBox, amountBigDecimalField);
+        receiverFormLayout.add(noteTextArea, 2);
         receiverFormLayout.add(openTransferMethodButton, new Label());
 
         transferMethodFormLayout.add(luwidSendReceiverAccountComboBox, 2);
@@ -132,6 +142,7 @@ public class TransactionView extends VerticalLayout {
         luwidSendReceiverAccountComboBox.addValueChangeListener(event -> loadSenderAccount());
         openTransferDetailsButton.addClickListener(event -> openTransferDetailsFormLayout());
         cancelButton.addClickListener(event -> refresh());
+        checkMyTransferButton.addClickListener(event -> checkMyTransfer());
     }
 
     private void loadReceiverAccount() {
@@ -201,6 +212,7 @@ public class TransactionView extends VerticalLayout {
         receiverBankComboBox.clear();
         receiverAccountComboBox.clear();
         amountBigDecimalField.clear();
+        noteTextArea.clear();
         receiverFormLayout.setEnabled(true);
         
         luwidSendReceiverAccountComboBox.clear();
@@ -208,14 +220,24 @@ public class TransactionView extends VerticalLayout {
         senderAccountComboBox.clear();
         transferMethodFormLayout.setEnabled(true);
 
+        detailsH4.setText("...");
+        detailsLabel.setText("...");
+        statusH4.setText("...");
+        idTransferToLuwidSendReceiverAccount.clear();
+        transferDetailsFormLayout.setEnabled(true);
+
         transferMethodAccordionPanel.setEnabled(false);
         transferMethodAccordionPanel.setOpened(false);
+        transferDetailsAccordionPanel.setEnabled(false);
+        transferDetailsAccordionPanel.setOpened(false);
+
         receiverAccordionPanel.setEnabled(true);
         receiverAccordionPanel.setOpened(true);
     }
 
     private void createTransaction(){
         Transaction transaction = new Transaction();
+        transaction.setId(null);
         transaction.setSenderBankId(senderAccountComboBox.getValue().getBank().getId());
         transaction.setSenderBankName(senderAccountComboBox.getValue().getBank().getName());
         transaction.setSenderAccountId(senderAccountComboBox.getValue().getId());
@@ -228,11 +250,11 @@ public class TransactionView extends VerticalLayout {
 
         transaction.setAmount(amountBigDecimalField.getValue());
         transaction.setFee(LSVariable.TRANSACTION_FEE);
-        transaction.setNote("");
+        transaction.setNote(noteTextArea.getValue());
         transaction.setStatus(LSVariable.TRANSACTION_STATUS_PENDING);
         transaction.setReferenceId("");
 
-        transactionService.save(transaction);
+        transactionForUpdate = transactionService.save(transaction);
 
         //1. SENDER TRANSFER TO LUWIDSEND  RECEIVER (Amount + Fee)
         TransactionDTO transactionDTO = new TransactionDTO();
@@ -241,11 +263,13 @@ public class TransactionView extends VerticalLayout {
         transactionDTO.setReceiverBankId(luwidSendReceiverAccountComboBox.getValue().getBank().getId());
         transactionDTO.setReceiverAccountId(luwidSendReceiverAccountComboBox.getValue().getId());
         transactionDTO.setAmount(amountPlusFeeBigDecimalField.getValue()); //Amount + Fee
-        transactionDTO.setNote(transaction.getNote());
+        transactionDTO.setNote(noteTextArea.getValue());
 
-        Transaction transactionResponseSenderToLuwidSendReceiver = transactionWebClientService.transfer(transactionDTO);
-        if(transactionResponseSenderToLuwidSendReceiver != null){
-            idTransferToLuwidSendReceiverAccount.setValue(transactionResponseSenderToLuwidSendReceiver.getId());
+        String transactionResponseSenderToLuwidSendReceiver = transactionWebClientService.transfer(transactionDTO);
+        if(transactionResponseSenderToLuwidSendReceiver.startsWith("ERROR")){
+            Notification.show(transactionResponseSenderToLuwidSendReceiver, 5000, Notification.Position.MIDDLE);
+        }else{
+            idTransferToLuwidSendReceiverAccount.setValue(transactionResponseSenderToLuwidSendReceiver);
         }
         //============================================
     }
@@ -266,14 +290,43 @@ public class TransactionView extends VerticalLayout {
                         5000, Notification.Position.MIDDLE);
             }else{
                 //3. LUWIDSEND SENDER TRANSFER TO RECEIVER (Amount Only)
-                bujuri dibawah ini cari luwid send sender sesuai bank receiver
-                TransactionDTO transactionDTO = new TransactionDTO();
-                transactionDTO.setSenderBankId(luw.getValue().getBank().getId());
-                transactionDTO.setSenderAccountId(senderAccountComboBox.getValue().getId());
-                transactionDTO.setReceiverBankId(luwidSendReceiverAccountComboBox.getValue().getBank().getId());
-                transactionDTO.setReceiverAccountId(luwidSendReceiverAccountComboBox.getValue().getId());
-                transactionDTO.setAmount(amountPlusFeeBigDecimalField.getValue()); //Amount + Fee
-                transactionDTO.setNote(transaction.getNote());
+                Account luwidSendSenderAccount = null;
+                for(Account account:luwidSendAccounts){
+                    if(account.getBank().getId().equals(receiverAccountComboBox.getValue().getBank().getId())){
+                        luwidSendSenderAccount = account;
+                        break;
+                    }
+                }
+                if(luwidSendSenderAccount != null){
+                    TransactionDTO transactionDTO = new TransactionDTO();
+                    transactionDTO.setSenderBankId(luwidSendSenderAccount.getBank().getId());
+                    transactionDTO.setSenderAccountId(luwidSendSenderAccount.getId());
+                    transactionDTO.setReceiverBankId(receiverAccountComboBox.getValue().getBank().getId());
+                    transactionDTO.setReceiverAccountId(receiverAccountComboBox.getValue().getId());
+                    transactionDTO.setAmount(amountBigDecimalField.getValue()); //Amount only
+                    transactionDTO.setNote(noteTextArea.getValue());
+
+                    String transactionResponseLuwidSendSenderToReceiver = transactionWebClientService.transfer(transactionDTO);
+                    if(transactionResponseLuwidSendSenderToReceiver.startsWith("ERROR")){
+                        Notification.show(transactionResponseLuwidSendSenderToReceiver, 5000, Notification.Position.MIDDLE);
+                    }else{
+                        String referenceId = idTransferToLuwidSendReceiverAccount.getValue()+", "+transactionResponseLuwidSendSenderToReceiver;
+
+                        //4. UPDATE REFERENCE ID, STATUS TO DELIVERED
+                        if(transactionForUpdate != null){
+                            transactionForUpdate.setStatus(LSVariable.TRANSACTION_STATUS_DELIVERED);
+                            transactionForUpdate.setReferenceId(referenceId);
+                            Transaction transactioneRsponse = transactionService.save(transactionForUpdate);
+                            if(transactioneRsponse != null){
+                                Notification.show("Transfer Success, You save Rp. 6.000", 5000, Notification.Position.MIDDLE);
+                            }else{
+
+                                Notification.show("Transfer Error", 5000, Notification.Position.MIDDLE);
+                                refresh();
+                            }
+                        }
+                    }
+                }
             }
         }
     }

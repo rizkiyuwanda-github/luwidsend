@@ -14,7 +14,9 @@ public class TransactionService {
 
     public Transaction save (Transaction transaction){
         LocalDateTime ldt = LocalDateTime.now();
-        transaction.setId("LST"+ldt.getYear()+ldt.getMonthValue()+ldt.getDayOfMonth()+ldt.getHour()+ldt.getMinute()+ldt.getSecond()+ldt.getNano());
+        if(transaction.getId() == null) {
+            transaction.setId("LST" + ldt.getYear() + ldt.getMonthValue() + ldt.getDayOfMonth() + ldt.getHour() + ldt.getMinute() + ldt.getSecond() + ldt.getNano());
+        }
         transaction.setTime(ldt);
         return transactionRepository.save(transaction);
     }

@@ -123,7 +123,7 @@
 Delivered
 Canceled</remarks>
     </column>
-    <column id="COL33" populated="true" UUID="22b4c20d-1a67-446b-89b5-86cd9eaae724" autoIncrement="false" autoIncrementSequenceName="transaction_reference_id_seq" defaultValue="" name="reference_id" nullable="1" physicalName="reference_id" precision="50" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL33" populated="true" UUID="22b4c20d-1a67-446b-89b5-86cd9eaae724" autoIncrement="false" autoIncrementSequenceName="transaction_reference_id_seq" defaultValue="" name="reference_id" nullable="1" physicalName="reference_id" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="-1" userDefinedTypeUUID="9a814859-ab26-4acd-9415-ea82291bcac1" >
      <remarks></remarks>
     </column>
     </folder>
@@ -149,7 +149,7 @@ Canceled</remarks>
  <play-pen zoom="1.0" viewportX="0" viewportY="0" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
   <table-pane table-ref="TAB1" x="191" y="265" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB7" x="196" y="31" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB12" x="194" y="131" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB12" x="240" y="157" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB18" x="563" y="75" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-link relationship-ref="REL36" pkConnection="0.5" fkConnection="0.4371859296482412" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="132"/>
  </play-pen>
