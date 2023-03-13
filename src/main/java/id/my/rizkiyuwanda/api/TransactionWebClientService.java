@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Service
@@ -18,27 +19,24 @@ public class TransactionWebClientService {
     @Autowired
     private LSWebClient lsWebClient;
 
-    @Autowired
-    private TransactionRepository transactionRepository;
 
-    public LocalDateTime getLocalDateTime() {
-        Mono<LocalDateTime> timeMono = lsWebClient.getWebClient().get()
-                .uri("/transaction/gettime")
-                .retrieve()
-                .bodyToMono(LocalDateTime.class);
-        //EXECUTE
-        return timeMono.block();
-    }
-
-
-
-
-    private Transaction transfer(TransactionDTO transactionDTO) {
-        return lsWebClient.getWebClient().post()
+    public Transaction transfer(TransactionDTO transactionDTO) {
+        Mono<Transaction>transactionMono = lsWebClient.getWebClient().post()
                 .uri("/transaction/transfer")
                 .body(Mono.just(transactionDTO), TransactionDTO.class)
                 .retrieve()
-                .bodyToMono(Transaction.class).block();
+                .bodyToMono(Transaction.class);
+        //EXECUTE
+        return transactionMono.block();
+    }
+
+    public Transaction findByIdAndReceiverAccountIdAndAmount(String id, String receiverAccountId, BigDecimal amount) {
+        Mono<Transaction>transactionMono = lsWebClient.getWebClient().get()
+                .uri("/transaction/findByIdAndReceiverAccountIdAndAmount/{id}/{receiverAccountId}/{amount}", id, receiverAccountId, amount)
+                .retrieve()
+                .bodyToMono(Transaction.class);
+        //EXECUTE
+        return transactionMono.block();
     }
 
 //    public Transaction transferDifferentBank(Transaction transaction, Account luwidSendReceiverAccount, Account luwidSendSenderAccount) {

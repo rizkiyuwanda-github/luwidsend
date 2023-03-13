@@ -10,11 +10,10 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TransactionDTO {
-    private String id;
-    private String senderAccountId;
     private String senderBankId;
-    private String receiverAccountId;
+    private String senderAccountId;
     private String receiverBankId;
+    private String receiverAccountId;
     private BigDecimal amount;
     private String note;
 }
