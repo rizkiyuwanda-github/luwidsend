@@ -1,7 +1,7 @@
 # luwidsend
 
 ## Database config
-CREATE USER luwidsend WITH ENCRYPTED PASSWORD '@Luwidsend';
+CREATE USER luwidsend WITH ENCRYPTED PASSWORD 'luwidsend';
 CREATE DATABASE luwidsend WITH OWNER luwidsend;
 
 ## Spring webflux
